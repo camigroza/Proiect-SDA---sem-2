@@ -38,6 +38,42 @@ void test_utilizator()
 	assert(u1.getNrPrieteni() == 0);
 	assert(u1.getNrMsjPrm() == 0);
 	assert(u1.getNrMsjTrm() == 0);
+	u1.addFriend(1);
+	assert(u1.getNrPrieteni() == 1);
+	u1.addFriend(2);
+	assert(u1.getNrPrieteni() == 1);
+	u1.addFriend(3);
+	assert(u1.getNrPrieteni() == 2);
+	assert(u1.getListaPrieteni()[0] == 1);
+	assert(u1.getListaPrieteni()[1] == 3);
+	assert(u1.removeFriend(2) == 0);
+	u1.removeFriend(1);
+	assert(u1.getNrPrieteni() == 1);
+	assert(u1.getListaPrieteni()[0] == 3);
+	u1.removeFriend(3);
+	assert(u1.getNrPrieteni() == 0);
+
+	assert(u1.getNrMsjPrm() == 0);
+	u1.addReceivedMessage(1, "super");
+	assert(u1.getNrMsjPrm() == 1);
+	u1.addReceivedMessage(1, "super x 2");
+	assert(u1.getNrMsjPrm() == 2);
+	assert(u1.getMesajePrimite()[1][0] == "super");
+	assert(u1.getMesajePrimite()[1][1] == "super x 2");
+	u1.addReceivedMessage(2, "superr");
+	assert(u1.getNrMsjPrm() == 3);
+	assert(u1.getMesajePrimite()[2][0] == "superr");
+
+	assert(u1.getNrMsjTrm() == 0);
+	u1.addSentMessage(2, "foarte super");
+	assert(u1.getNrMsjTrm() == 1);
+	u1.addSentMessage(2, "foarte super x 2");
+	assert(u1.getNrMsjTrm() == 2);
+	assert(u1.getMesajeTrimise()[2][0] == "foarte super");
+	assert(u1.getMesajeTrimise()[2][1] == "foarte super x 2");
+	u1.addSentMessage(3, "foarte superr");
+	assert(u1.getNrMsjTrm() == 3);
+	assert(u1.getMesajeTrimise()[3][0] == "foarte superr");
 
 	Utilizator u2(u1);
 	assert(!(u2 == u));

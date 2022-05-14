@@ -47,14 +47,52 @@ void Utilizator::setOras(string oras_)
 	this->oras = oras_;
 }
 
-int Utilizator::addFriend(int id_)
+int Utilizator::addFriend(int id)
 {
+	if (this->id == id)
+		return 0;
+	for (int i = 0; i < lista_prieteni.size(); i++)
+		if (lista_prieteni[i] == id) return 0;
+	lista_prieteni.push_back(id);
+}
+
+int Utilizator::removeFriend(int id)
+{
+	vector<int>::iterator it = std::find(lista_prieteni.begin(), lista_prieteni.end(), id);
+	if (it != lista_prieteni.end())
+	{
+		lista_prieteni.erase(it);
+		return 1;
+	}
 	return 0;
 }
 
-int Utilizator::removeFriend(int id_)
+void Utilizator::addReceivedMessage(int id_de_la_cine, string mesaj)
 {
-	return 0;
+	map<int, vector<string>>::iterator it;
+	it = mesaje_primite.find(id_de_la_cine);
+	if (it != mesaje_primite.end())
+		it->second.push_back(mesaj);
+	else
+	{
+		vector<string> m;
+		m.push_back(mesaj);
+		mesaje_primite.insert(pair<int, vector<string>>(id_de_la_cine, m));
+	}
+}
+
+void Utilizator::addSentMessage(int id_catre_cine, string mesaj)
+{
+	map<int, vector<string>>::iterator it;
+	it = mesaje_trimise.find(id_catre_cine);
+	if (it != mesaje_trimise.end())
+		it->second.push_back(mesaj);
+	else
+	{
+		vector<string> m;
+		m.push_back(mesaj);
+		mesaje_trimise.insert(pair<int, vector<string>>(id_catre_cine, m));
+	}
 }
 
 int Utilizator::getId()
@@ -82,12 +120,12 @@ vector<int> Utilizator::getListaPrieteni()
 	return this->lista_prieteni;
 }
 
-map<int, string> Utilizator::getMesajePrimite()
+map<int, vector<string>> Utilizator::getMesajePrimite()
 {
 	return this->mesaje_primite;
 }
 
-map<int, string> Utilizator::getMesajeTrimise()
+map<int, vector<string>> Utilizator::getMesajeTrimise()
 {
 	return this->mesaje_trimise;
 }
@@ -99,12 +137,20 @@ int Utilizator::getNrPrieteni()
 
 int Utilizator::getNrMsjPrm()
 {
-	return this->mesaje_primite.size();
+	int cate = 0;
+	map<int, vector<string>>::iterator it;
+	for (it = mesaje_primite.begin(); it != mesaje_primite.end(); it++)
+		cate += it->second.size();
+	return cate;
 }
 
 int Utilizator::getNrMsjTrm()
 {
-	return this->mesaje_trimise.size();
+	int cate = 0;
+	map<int, vector<string>>::iterator it;
+	for (it = mesaje_trimise.begin(); it != mesaje_trimise.end(); it++)
+		cate += it->second.size();
+	return cate;
 }
 
 Utilizator& Utilizator::operator=(const Utilizator& other)
