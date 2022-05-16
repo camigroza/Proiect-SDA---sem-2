@@ -6,6 +6,7 @@
 #include "retea.h"
 #include "TAD_lista---array.h"
 #include "TAD_multime_ordonata---ABC.h"
+#include "repository_'liste'_ale_utilizatorului.h"
 #include "ABCNode.h"
 #include <assert.h>
 #include <iostream>
@@ -26,54 +27,12 @@ void test_utilizator()
 	assert(u.getNume() == "Cami");
 	assert(u.getVarsta() == 19);
 	assert(u.getOras() == "Aiud");
-	assert(u.getNrPrieteni() == 0);
-	assert(u.getNrMsjPrm() == 0);
-	assert(u.getNrMsjTrm() == 0);
 
 	Utilizator u1(2, "Ferna", 19, "Aiud");
 	assert(u1.getId() == 2);
 	assert(u1.getNume() == "Ferna");
 	assert(u1.getVarsta() == 19);
 	assert(u1.getOras() == "Aiud");
-	assert(u1.getNrPrieteni() == 0);
-	assert(u1.getNrMsjPrm() == 0);
-	assert(u1.getNrMsjTrm() == 0);
-	u1.addFriend(1);
-	assert(u1.getNrPrieteni() == 1);
-	u1.addFriend(2);
-	assert(u1.getNrPrieteni() == 1);
-	u1.addFriend(3);
-	assert(u1.getNrPrieteni() == 2);
-	assert(u1.getListaPrieteni()[0] == 1);
-	assert(u1.getListaPrieteni()[1] == 3);
-	assert(u1.removeFriend(2) == 0);
-	u1.removeFriend(1);
-	assert(u1.getNrPrieteni() == 1);
-	assert(u1.getListaPrieteni()[0] == 3);
-	u1.removeFriend(3);
-	assert(u1.getNrPrieteni() == 0);
-
-	assert(u1.getNrMsjPrm() == 0);
-	u1.addReceivedMessage(1, "super");
-	assert(u1.getNrMsjPrm() == 1);
-	u1.addReceivedMessage(1, "super x 2");
-	assert(u1.getNrMsjPrm() == 2);
-	assert(u1.getMesajePrimite()[1][0] == "super");
-	assert(u1.getMesajePrimite()[1][1] == "super x 2");
-	u1.addReceivedMessage(2, "superr");
-	assert(u1.getNrMsjPrm() == 3);
-	assert(u1.getMesajePrimite()[2][0] == "superr");
-
-	assert(u1.getNrMsjTrm() == 0);
-	u1.addSentMessage(2, "foarte super");
-	assert(u1.getNrMsjTrm() == 1);
-	u1.addSentMessage(2, "foarte super x 2");
-	assert(u1.getNrMsjTrm() == 2);
-	assert(u1.getMesajeTrimise()[2][0] == "foarte super");
-	assert(u1.getMesajeTrimise()[2][1] == "foarte super x 2");
-	u1.addSentMessage(3, "foarte superr");
-	assert(u1.getNrMsjTrm() == 3);
-	assert(u1.getMesajeTrimise()[3][0] == "foarte superr");
 
 	Utilizator u2(u1);
 	assert(!(u2 == u));
@@ -108,6 +67,9 @@ void test_prietenie()
 	Prietenie p3 = p1;
 	assert(!(p3 == p));
 	assert(p3 == p1);
+
+	Prietenie p4(4, 3);
+	assert(p1 == p4);
 }
 
 void test_mesaj()
@@ -165,15 +127,39 @@ void test_retea()
 	Utilizator u1(1, "Cami", 19, "Aiud");
 	Utilizator u2(2, "Ferna", 19, "Aiud");
 	Prietenie p1(1, 2);
+	Prietenie p2(3, 4);
 	Retea r(lu, lp);
 
+	assert(r.existsUser(u2) == false);
+	assert(r.existsFriendship(p1) == false);
 	r.addUser(u1);
-	r.addFriendship(p1);
 	r.addUser(u2);
+	r.addFriendship(p1);
+	assert(r.findPosUserById(1) == 0);
+	assert(r.findPosUserById(2) == 1);
+
+	assert(r.existsUser(u2) == true);
+	assert(r.existsFriendship(p1) == true);
+
+	Retea r1(r);
+	Retea r2;
+	r2 = r1;
+	assert(r2 == r);
+	assert(r1 == r);
 
 	assert(r.getUsers()[0] == u1);
 	assert(r.getUsers()[1] == u2);
 	assert(r.getFriendships()[0] == p1);
+
+	r.removeUser(u1);
+	assert(r.existsUser(u1) == false);
+	r.removeFriendship(p1);
+	assert(r.existsFriendship(p1) == false);
+	assert(r.modifyUser(u1, u2) == 0);
+	r.addFriendship(p1);
+	r.modifyUser(u2, u1);
+	assert(r.existsUser(u1) == true);
+	assert(r.existsUser(u2) == false);
 }
 
 void test_TADLista()
@@ -218,23 +204,23 @@ void test_TADLista()
 	Utilizator u1(1, "Cami", 19, "Aiud");
 	Utilizator u2(2, "Ferna", 19, "Aiud");
 	lu.add(u1);
-	lu.add(u2);
 	lu.modify(u1, u2);
 	assert(lu.exists(u1) == false);
 	assert(lu.exists(u2) == true);
+	assert(lu.modify(u1, u2) == 0);
+	lu.add(u1);
 	assert(lu.modify(u1, u2) == 0);
 
 	TADLista<Eveniment> le;
 	Eveniment e1(1, "16.06.2002");
 	Eveniment e2(2, "04.11.2002");
 	le.add(e1);
-	le.add(e2);
 	assert(le[0] == e1);
-	assert(le[1] == e2);
 	le.modify(e1, e2);
 	assert(le[0] == e2);
-	assert(le[1] == e2);
 	assert(le.exists(e1) == false);
+	assert(le.modify(e1, e2) == 0);
+	le.add(e1);
 	assert(le.modify(e1, e2) == 0);
 
 	TADLista<Mesaj> lm;
@@ -337,6 +323,105 @@ void test_TADMultimeOrdonata()
 	m.remove(2);
 }
 
+void test_RepoForUser()
+{
+	RepoForUser r;
+	assert(r.getIdUtilizator() == -1);
+	assert(r.getNrPrieteni() == 0);
+	assert(r.getNrMsjPrm() == 0);
+	assert(r.getNrMsjTrm() == 0);
+
+	RepoForUser r1(1);
+	assert(r1.getIdUtilizator() == 1);
+	assert(r1.getNrPrieteni() == 0);
+	assert(r1.getNrMsjPrm() == 0);
+	assert(r1.getNrMsjTrm() == 0);
+
+	r1.addFriend(1);
+	r1.addFriend(2);
+	r1.addFriend(3);
+	assert(r1.getNrPrieteni() == 2);
+	assert(r1.getListaPrieteni()[0] == 2);
+	assert(r1.getListaPrieteni()[1] == 3);
+
+	assert(r1.removeFriend(4) == 0);
+	assert(r1.removeFriend(1) == 0);
+	r1.removeFriend(2);
+	assert(r1.getNrPrieteni() == 1);
+	assert(r1.getListaPrieteni()[0] == 3);
+
+	r1.addReceivedMessage(2, "super");
+	r1.addReceivedMessage(2, "super x 2");
+	r1.addReceivedMessage(3, "tare");
+	assert(r1.getNrMsjPrm() == 3);
+	assert(r1.getMesajePrimite()[2][0] == "super");
+	assert(r1.getMesajePrimite()[2][1] == "super x 2");
+	assert(r1.getMesajePrimite()[3][0] == "tare");
+
+	r1.removeReceivedMessage(2, 0);
+	assert(r1.removeReceivedMessage(5, 0) == 0);
+	assert(r1.removeReceivedMessage(2, 5) == 0);
+	assert(r1.getNrMsjPrm() == 2);
+	assert(r1.getMesajePrimite()[2][0] == "super x 2");
+	assert(r1.removeReceivedMessage(2, 1) == 0);
+	r1.removeReceivedMessage(2, 0);
+	assert(r1.getNrMsjPrm() == 1);
+	r1.removeReceivedMessage(3, 0);
+	assert(r1.getNrMsjPrm() == 0);
+
+	r1.addSentMessage(3, "wow");
+	r1.addSentMessage(3, "wow x 2");
+	r1.addSentMessage(4, "miau");
+	assert(r1.getNrMsjTrm() == 3);
+	assert(r1.getMesajeTrimise()[3][0] == "wow");
+	assert(r1.getMesajeTrimise()[3][1] == "wow x 2");
+	assert(r1.getMesajeTrimise()[4][0] == "miau");
+
+	assert(r1.removeSentMessaje(1, 3) == 0);
+	assert(r1.removeSentMessaje(3, 3) == 0);
+	r1.removeSentMessaje(3, 1);
+	assert(r1.getNrMsjTrm() == 2);
+	assert(r1.getMesajeTrimise()[3][0] == "wow");
+	assert(r1.removeSentMessaje(3, 1) == 0);
+	r1.removeSentMessaje(3, 0);
+	assert(r1.getNrMsjTrm() == 1);
+	r1.removeSentMessaje(4, 0);
+	assert(r1.getNrMsjTrm() == 0);
+
+	RepoForUser r3(r1);
+	RepoForUser r4;
+	r4 = r1;
+	assert(r3 == r4);
+
+	TADMultimeOrdonata<int> m;
+	m.add(1);
+	vector<string> v1;
+	v1.push_back("aaa");
+	vector<string> v11;
+	v11.push_back("AAA");
+	vector<string> v2;
+	v2.push_back("bbb");
+	vector<string> v22;
+	v22.push_back("BBB");
+	vector<string> v222;
+	v222.push_back("bBb");
+	map<int, vector<string>> mp;
+	mp.insert(pair<int, vector<string>>(1, v1));
+	mp.insert(pair<int, vector<string>>(11, v11));
+	map<int, vector<string>> mt;
+	mt.insert(pair<int, vector<string>>(2, v2));
+	mt.insert(pair<int, vector<string>>(22, v22));
+	mt.insert(pair<int, vector<string>>(222, v222));
+	RepoForUser r2(2, m, mp, mt);
+	assert(r2.getIdUtilizator() == 2);
+	assert(r2.getListaPrieteni() == m);
+	assert(r2.getMesajePrimite() == mp);
+	assert(r2.getMesajeTrimise() == mt);
+	assert(r2.getNrPrieteni() == 1);
+	assert(r2.getNrMsjPrm() == 2);
+	assert(r2.getNrMsjTrm() == 3);
+}
+
 void test_all()
 {
 	test_utilizator();
@@ -346,5 +431,6 @@ void test_all()
 	test_retea();
 	test_TADLista();
 	test_TADMultimeOrdonata();
+	test_RepoForUser();
 	cout << "Toate testele au trecut cu succes!\n";
 }

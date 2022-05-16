@@ -7,4 +7,5 @@ void test_eveniment();
 void test_retea();
 void test_TADLista();
 void test_TADMultimeOrdonata();
+void test_RepoForUser();
 void test_all();

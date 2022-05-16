@@ -77,6 +77,7 @@ template<class TElem>
 inline int TADLista<TElem>::modify(TElem e_vechi, TElem e_nou)
 {
 	if (!exists(e_vechi)) return 0;
+	if (exists(e_nou)) return 0;
 	int poz = searchPos(e_vechi);
 	elems[poz] = e_nou;
 	return 1;

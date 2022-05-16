@@ -50,5 +50,6 @@ Prietenie& Prietenie::operator=(const Prietenie& other)
 
 bool Prietenie::operator==(const Prietenie& other)
 {
-	return this->id_utilizator_1 == other.id_utilizator_1 && this->id_utilizator_2 == other.id_utilizator_2;
+	return (this->id_utilizator_1 == other.id_utilizator_1 && this->id_utilizator_2 == other.id_utilizator_2) ||
+		(this->id_utilizator_1 == other.id_utilizator_2 && this->id_utilizator_2 == other.id_utilizator_1);
 }

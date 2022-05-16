@@ -11,18 +11,24 @@ private:
 public:
 	Retea();
 	Retea(TADLista<Utilizator>& users_, TADLista<Prietenie>& friendships_);
+	Retea(const Retea& other);
 	~Retea() = default;
 
-	void addUser(const Utilizator& u);
+	int addUser(const Utilizator& u);
 	int removeUser(const Utilizator& u);
 	int modifyUser(const Utilizator& u_vechi, const Utilizator& u_nou);
 
-	void addFriendship(const Prietenie& p);
-	int removeFriendship(const Prietenie& p);
-	int modifyFriendship(const Prietenie& p_veche, const Prietenie& p_noua);
+	int addFriendship(Prietenie& p);
+	int removeFriendship(Prietenie& p);
 
 	TADLista<Utilizator> getUsers();
 	TADLista<Prietenie> getFriendships();
 
+	bool existsUser(const Utilizator& u);
+	bool existsFriendship(const Prietenie& p);
+
 	Retea& operator=(Retea& other);
+	bool operator==(const Retea& other);
+
+	int findPosUserById(int id_);
 };

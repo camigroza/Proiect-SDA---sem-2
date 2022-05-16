@@ -10,9 +10,17 @@ Retea::Retea(TADLista<Utilizator>& users_, TADLista<Prietenie>& friendships_)
 	this->friendships = friendships_;
 }
 
-void Retea::addUser(const Utilizator& u)
+Retea::Retea(const Retea& other)
 {
+	this->users = other.users;
+	this->friendships = other.friendships;
+}
+
+int Retea::addUser(const Utilizator& u)
+{
+	if (this->existsUser(u)) return 0;
 	this->users.add(u);
+	return 1;
 }
 
 int Retea::removeUser(const Utilizator& u)
@@ -24,20 +32,19 @@ int Retea::modifyUser(const Utilizator& u_vechi, const Utilizator& u_nou)
 {
 	return this->users.modify(u_vechi, u_nou);
 }
-
-void Retea::addFriendship(const Prietenie& p)
+int Retea::addFriendship(Prietenie& p)
 {
+	if (this->existsFriendship(p)) return 0;
+	int poz_1 = this->findPosUserById(p.getIdUtilizator1());
+	int poz_2 = this->findPosUserById(p.getIdUtilizator2());
+	if (poz_1 == -1 || poz_2 == -1) return 0;
 	this->friendships.add(p);
+	return 1;
 }
 
-int Retea::removeFriendship(const Prietenie& p)
+int Retea::removeFriendship(Prietenie& p)
 {
 	return this->friendships.remove(p);
-}
-
-int Retea::modifyFriendship(const Prietenie& p_veche, const Prietenie& p_noua)
-{
-	return this->friendships.modify(p_veche, p_noua);
 }
 
 TADLista<Utilizator> Retea::getUsers()
@@ -50,14 +57,35 @@ TADLista<Prietenie> Retea::getFriendships()
 	return this->friendships;
 }
 
+bool Retea::existsUser(const Utilizator& u)
+{
+	return this->users.exists(u);
+}
+
+bool Retea::existsFriendship(const Prietenie& p)
+{
+	return this->friendships.exists(p);
+}
+
 Retea& Retea::operator=(Retea& other)
 {
 	if (this != &other)
 	{
-		for (int i = 0; i < other.users.size(); i++)
-			this->users.add(other.users[i]);
-		for (int i = 0; i < other.friendships.size(); i++)
-			this->friendships.add(other.friendships[i]);
+		this->users = other.users;
+		this->friendships = other.friendships;
 	}
 	return *this;
 }
+
+bool Retea::operator==(const Retea& other)
+{
+	return this->users == other.users && this->friendships == other.friendships;
+}
+
+int Retea::findPosUserById(int id_)
+{
+	for (int i = 0; i < users.size(); i++)
+		if (users[i].getId() == id_) return i;
+	return -1;
+}
+
