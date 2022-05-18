@@ -1,4 +1,6 @@
 #include "utilizator.h"
+#include <iostream>
+using namespace std;
 
 Utilizator::Utilizator()
 {
@@ -72,9 +74,6 @@ Utilizator& Utilizator::operator=(const Utilizator& other)
 		this->nume = other.nume;
 		this->varsta = other.varsta;
 		this->oras = other.oras;
-		/*this->lista_prieteni = other.lista_prieteni;
-		this->mesaje_primite = other.mesaje_primite;
-		this->mesaje_trimise = other.mesaje_trimise;*/
 	}
 	return *this;
 }
@@ -93,4 +92,33 @@ bool Utilizator::operator>(const Utilizator& other)
 bool Utilizator::operator<(const Utilizator& other)
 {
 	return this->nume < other.nume;
+}
+
+ostream& operator<<(ostream& os, const Utilizator& u)
+{
+	os << "Id: " << u.id << "; Nume: " << u.nume << "; Varsta: " << u.varsta << "; Oras: " << u.oras;
+	return os;
+}
+
+istream& operator>>(istream& is, Utilizator& u)
+{
+	cout << " Dati id-ul: ";
+	int id;
+	is >> id;
+	cin.get();
+	cout << " Dati numele: ";
+	string nume;
+	getline(is, nume);
+	cout << " Dati varsta: ";
+	int varsta;
+	is >> varsta;
+	cin.get();
+	cout << " Dati orasul: ";
+	string oras;
+	getline(is, oras);
+	u.setId(id);
+	u.setNume(nume);
+	u.setVarsta(varsta);
+	u.setOras(oras);
+	return is;
 }

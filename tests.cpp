@@ -2,11 +2,11 @@
 #include "utilizator.h"
 #include "prietenie.h"
 #include "mesaj.h"
-#include "eveniment.h"
 #include "retea.h"
 #include "TAD_lista---array.h"
 #include "TAD_multime_ordonata---ABC.h"
 #include "repository_'liste'_ale_utilizatorului.h"
+#include "service.h"
 #include "ABCNode.h"
 #include <assert.h>
 #include <iostream>
@@ -98,32 +98,10 @@ void test_mesaj()
 	assert(m4 == m3);
 }
 
-void test_eveniment()
-{
-	Eveniment e1;
-	assert(e1.getIdUtilizator() == -1);
-	assert(e1.getDataNasterii() == "");
-	e1.setIdUtilizator(1);
-	e1.setDataNasterii("16.06.2002");
-	assert(e1.getIdUtilizator() == 1);
-	assert(e1.getDataNasterii() == "16.06.2002");
-
-	Eveniment e2(2, "12.07.1967");
-	assert(e2.getIdUtilizator() == 2);
-	assert(e2.getDataNasterii() == "12.07.1967");
-
-	Eveniment e3(e2);
-	assert(!(e3 == e1));
-	assert(e3 == e2);
-
-	Eveniment e4 = e1;
-	assert(e1 == e4);
-}
-
 void test_retea()
 {
-	TADLista<Utilizator> lu;
-	TADLista<Prietenie> lp;
+	Lista<Utilizator> lu;
+	Lista<Prietenie> lp;
 	Utilizator u1(1, "Cami", 19, "Aiud");
 	Utilizator u2(2, "Ferna", 19, "Aiud");
 	Prietenie p1(1, 2);
@@ -164,12 +142,12 @@ void test_retea()
 
 void test_TADLista()
 {
-	TADLista<int> l;
+	Lista<int> l;
 	assert(l.size() == 0);
 	l.add(1);
 	l.add(2);
 
-	TADLista<int> l1(l);
+	Lista<int> l1(l);
 	assert(l1 == l);
 
 	assert(l.size() == 2);
@@ -191,7 +169,7 @@ void test_TADLista()
 	assert(l.exists(1) == false);
 	assert(l.exists(2) == false);
 
-	TADLista<Prietenie> lp;
+	Lista<Prietenie> lp;
 	Prietenie p1(1, 2);
 	Prietenie p2(3, 4);
 	lp.add(p1);
@@ -200,7 +178,7 @@ void test_TADLista()
 	lp.add(p2);
 	assert(lp.exists(p2) == true);
 
-	TADLista<Utilizator> lu;
+	Lista<Utilizator> lu;
 	Utilizator u1(1, "Cami", 19, "Aiud");
 	Utilizator u2(2, "Ferna", 19, "Aiud");
 	lu.add(u1);
@@ -209,21 +187,8 @@ void test_TADLista()
 	assert(lu.exists(u2) == true);
 	assert(lu.modify(u1, u2) == 0);
 	lu.add(u1);
-	assert(lu.modify(u1, u2) == 0);
 
-	TADLista<Eveniment> le;
-	Eveniment e1(1, "16.06.2002");
-	Eveniment e2(2, "04.11.2002");
-	le.add(e1);
-	assert(le[0] == e1);
-	le.modify(e1, e2);
-	assert(le[0] == e2);
-	assert(le.exists(e1) == false);
-	assert(le.modify(e1, e2) == 0);
-	le.add(e1);
-	assert(le.modify(e1, e2) == 0);
-
-	TADLista<Mesaj> lm;
+	Lista<Mesaj> lm;
 	Mesaj m1(1, 2, "aaa");
 	Mesaj m2(3, 4, "bbb");
 	lm.add(m1);
@@ -245,11 +210,11 @@ void test_TADMultimeOrdonata()
 	aux = nu3;
 	assert(aux == nu3);
 
-	TADMultimeOrdonata<Utilizator> mm;
+	MultimeOrdonata<Utilizator> mm;
 	mm.add(u1);
 	mm.add(u2);
 
-	TADMultimeOrdonata<Utilizator> mmm;
+	MultimeOrdonata<Utilizator> mmm;
 	mmm = mm;
 	assert(mmm == mm);
 
@@ -262,8 +227,9 @@ void test_TADMultimeOrdonata()
 	assert(mm[0] == u2);
 	assert(mm[1] == u3);
 	assert(mm.modify(u1, u2) == 0);
+	assert(mm.modify(u2, u3) == 0);
 
-	TADMultimeOrdonata<Utilizator> mu;
+	MultimeOrdonata<Utilizator> mu;
 	assert(mu.size() == 0);
 	mu.add(u1);
 	assert(mu.size() == 1);
@@ -289,19 +255,19 @@ void test_TADMultimeOrdonata()
 	mu.remove(u2);
 	assert(mu.size() == 0);
 
-	TADMultimeOrdonata<int> m1;
+	MultimeOrdonata<int> m1;
 	m1.add(1);
 	m1.add(2);
 	m1.add(3);
 
-	TADMultimeOrdonata<int> m;
+	MultimeOrdonata<int> m;
 	m.add(2);
 	m.add(3);
 	m.add(1);
 	m.add(1);
 
 	assert(m1 == m);
-	TADMultimeOrdonata<int> m2;
+	MultimeOrdonata<int> m2;
 	m2 = m;
 	assert(m2 == m1);
 
@@ -393,7 +359,7 @@ void test_RepoForUser()
 	r4 = r1;
 	assert(r3 == r4);
 
-	TADMultimeOrdonata<int> m;
+	MultimeOrdonata<int> m;
 	m.add(1);
 	vector<string> v1;
 	v1.push_back("aaa");
@@ -422,15 +388,55 @@ void test_RepoForUser()
 	assert(r2.getNrMsjTrm() == 3);
 }
 
+void test_service()
+{
+	Service ssss;
+	
+	RepoForUser r(1);
+	r.addFriend(2);
+	r.addReceivedMessage(2, "hei");
+	r.addSentMessage(2, "hei back");
+	RepoForUser r1(3);
+	r1.addFriend(2);
+	r1.addReceivedMessage(2, "hei");
+	r1.addSentMessage(2, "hei back");
+	vector<RepoForUser> v;
+	v.push_back(r);
+	v.push_back(r1);
+	Retea rr;
+	rr.addUser(Utilizator(1, "Cami", 19, "Aiud"));
+	rr.addUser(Utilizator(2, "Camii", 19, "Aiud"));
+	Prietenie p(1, 2);
+	rr.addFriendship(p);
+	Lista<Mesaj> lm;
+	lm.add(Mesaj(1, 2, "hei"));
+	lm.add(Mesaj(2, 1, "hei back"));
+	Service ss(rr, v, lm);
+
+	Service sss;
+	sss = ss;
+
+	assert(ss.getPosRepoById(1) == 0);
+	assert(ss.getPosRepoById(2) == -1);
+	assert(ss.getPosRepoById(3) == 1);
+	ss.addUser(2, "Ariana", 19, "Aiud");
+	assert(ss.getPosRepoById(2) == 2);
+	ss.removeUser(1);
+	assert(ss.getPosRepoById(1) == -1);
+	assert(ss.getPosRepoById(3) == 0);
+	assert(ss.getPosRepoById(2) == 1);
+	ss.modifyUser(2, "Iulia", 19, "Cluj");
+}
+
 void test_all()
 {
 	test_utilizator();
 	test_prietenie();
 	test_mesaj();
-	test_eveniment();
 	test_retea();
 	test_TADLista();
 	test_TADMultimeOrdonata();
 	test_RepoForUser();
-	cout << "Toate testele au trecut cu succes!\n";
+	test_service();
+	cout << " Toate testele au trecut cu succes!\n\n";
 }

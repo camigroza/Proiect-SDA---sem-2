@@ -4,7 +4,7 @@ Retea::Retea()
 {
 }
 
-Retea::Retea(TADLista<Utilizator>& users_, TADLista<Prietenie>& friendships_)
+Retea::Retea(Lista<Utilizator>& users_, Lista<Prietenie>& friendships_)
 {
 	this->users = users_;
 	this->friendships = friendships_;
@@ -30,10 +30,13 @@ int Retea::removeUser(const Utilizator& u)
 
 int Retea::modifyUser(const Utilizator& u_vechi, const Utilizator& u_nou)
 {
+	if (this->users.exists(u_nou))
+		return 0;
 	return this->users.modify(u_vechi, u_nou);
 }
 int Retea::addFriendship(Prietenie& p)
 {
+	if (p.getIdUtilizator1() == p.getIdUtilizator2()) return 0;
 	if (this->existsFriendship(p)) return 0;
 	int poz_1 = this->findPosUserById(p.getIdUtilizator1());
 	int poz_2 = this->findPosUserById(p.getIdUtilizator2());
@@ -47,12 +50,12 @@ int Retea::removeFriendship(Prietenie& p)
 	return this->friendships.remove(p);
 }
 
-TADLista<Utilizator> Retea::getUsers()
+Lista<Utilizator> Retea::getUsers()
 {
 	return this->users;
 }
 
-TADLista<Prietenie> Retea::getFriendships()
+Lista<Prietenie> Retea::getFriendships()
 {
 	return this->friendships;
 }

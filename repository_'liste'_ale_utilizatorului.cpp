@@ -10,7 +10,7 @@ RepoForUser::RepoForUser(int id)
 	this->id_user = id;
 }
 
-RepoForUser::RepoForUser(int id, TADMultimeOrdonata<int>& lista_prieteni_, map<int, vector<string>>& mesaje_primite_, map<int, vector<string>>& mesaje_trimise_)
+RepoForUser::RepoForUser(int id, MultimeOrdonata<int>& lista_prieteni_, map<int, vector<string>>& mesaje_primite_, map<int, vector<string>>& mesaje_trimise_)
 {
 	this->id_user = id;
 	this->lista_prieteni = lista_prieteni_;
@@ -25,6 +25,7 @@ int RepoForUser::addFriend(int id)
 	for (int i = 0; i < lista_prieteni.size(); i++)
 		if (lista_prieteni[i] == id) return 0;
 	lista_prieteni.add(id);
+	return 1;
 }
 
 int RepoForUser::removeFriend(int id)
@@ -93,7 +94,7 @@ int RepoForUser::getIdUtilizator()
 	return this->id_user;
 }
 
-TADMultimeOrdonata<int> RepoForUser::getListaPrieteni()
+MultimeOrdonata<int> RepoForUser::getListaPrieteni()
 {
 	return this->lista_prieteni;
 }

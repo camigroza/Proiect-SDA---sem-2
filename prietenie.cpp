@@ -53,3 +53,22 @@ bool Prietenie::operator==(const Prietenie& other)
 	return (this->id_utilizator_1 == other.id_utilizator_1 && this->id_utilizator_2 == other.id_utilizator_2) ||
 		(this->id_utilizator_1 == other.id_utilizator_2 && this->id_utilizator_2 == other.id_utilizator_1);
 }
+
+ostream& operator<<(ostream& os, const Prietenie& p)
+{
+	os << "Prietenie intre utilizatorul cu id-ul '" << p.id_utilizator_1 << "' si utilizatorul cu id-ul '" << p.id_utilizator_2 << "'";
+	return os;
+}
+
+istream& operator>>(istream& is, Prietenie& p)
+{
+	cout << " Dati id-ul primului prieten: ";
+	int id_1;
+	is >> id_1;
+	cout << " Dati id-ul celui de-al doilea prieten: ";
+	int id_2;
+	is >> id_2;
+	p.setIdUtilizator1(id_1);
+	p.setIdUtilizator2(id_2);
+	return is;
+}

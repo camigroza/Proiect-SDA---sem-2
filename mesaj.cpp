@@ -1,4 +1,6 @@
 #include "mesaj.h"
+#include <iostream>
+using namespace std;
 
 Mesaj::Mesaj()
 {
@@ -66,4 +68,10 @@ bool Mesaj::operator==(const Mesaj& other)
 {
 	return this->id_expeditor == other.id_expeditor && 
 		this->id_destinatar == other.id_destinatar && this->mesaj == other.mesaj;
+}
+
+ostream& operator<<(ostream& os, const Mesaj& m)
+{
+	os << m.id_expeditor << " - " << m.id_destinatar << ": " << m.mesaj;
+	return os;
 }

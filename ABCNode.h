@@ -1,7 +1,7 @@
 #pragma once
 
 template<typename T>
-class TADMultimeOrdonata;
+class MultimeOrdonata;
 
 template<class TElem>
 class ABCNode {
@@ -11,15 +11,17 @@ private:
 	ABCNode<TElem>* right;
 
 public:
+	//constructori si destructor
 	ABCNode();
 	ABCNode(TElem info_);
 	ABCNode(TElem info_, ABCNode<TElem>* left_, ABCNode<TElem>* right_);
 	~ABCNode() = default;
 
+	//overload la operatori
 	ABCNode<TElem>& operator=(const ABCNode<TElem>& other);
 	bool operator==(const ABCNode<TElem>& other);
 
-	friend class TADMultimeOrdonata<TElem>;
+	friend class MultimeOrdonata<TElem>;
 };
 
 template<class TElem>
