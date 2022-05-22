@@ -25,7 +25,7 @@ void UI::menuUsers()
 			this->ui_modifica_utilizator();
 		else if (optiune == "x")
 			break;
-		else cout << " Optiune gresita! Reincercati: \n";
+		else cout << "\tOptiune gresita! Reincercati: \n";
 
 		cout << endl;
 	}
@@ -86,7 +86,7 @@ void UI::menuFriendships()
 			this->ui_sterge_prietenie();
 		else if (optiune == "x")
 			break;
-		else cout << " Optiune gresita! Reincercati: \n";
+		else cout << "\tOptiune gresita! Reincercati: \n";
 
 		cout << endl;
 	}
@@ -126,7 +126,7 @@ void UI::menuMessages()
 			this->ui_sterge_mesaj();
 		else if (optiune == "x")
 			break;
-		else cout << " Optiune gresita! Reincercati: \n";
+		else cout << "\tOptiune gresita! Reincercati: \n";
 
 		cout << endl;
 	}
@@ -160,6 +160,30 @@ void UI::ui_adauga_mesaj()
 
 void UI::ui_sterge_mesaj()
 {
+	cout << " Dati id-ul utilizatorului care a trimis mesajul: ";
+	int id_1;
+	cin >> id_1;
+	if (this->service.getPosRepoById(id_1) == -1)
+		cout << "\tNu exista un utilizator cu id-ul dat!\n";
+	else
+	{
+		cout << " Dati id-ul utilizatorului catre care a fost trimis mesajul: ";
+		int id_2;
+		cin >> id_2;
+		if (this->service.getPosRepoById(id_2) == -1)
+			cout << "\tNu exista un utilizator cu id-ul dat!\n";
+		else
+		{
+			cout << " Dati pozitia pe care se afla mesajul pe care doriti sa il stergeti: ";
+			int poz;
+			cin >> poz;
+			vector<string> sm = this->service.getAllSentMessages(id_1)[id_2];
+			if (!(poz >= 0 && poz < sm.size()))
+				cout << "\tPozitia nu este valida!\n";
+			else
+				this->service.removeMessage(id_1, id_2, poz);
+		}
+	}
 }
 
 void UI::ui_afiseaza_toti_utilizatorii()
@@ -348,7 +372,7 @@ void UI::runMenu()
 
 		else if (optiune == "x")
 			break;
-		else cout << " Optiune gresita! Reincercati: \n";
+		else cout << "\tOptiune gresita! Reincercati: \n";
 
 		cout << endl;
 	}

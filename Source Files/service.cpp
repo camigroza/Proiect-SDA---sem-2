@@ -83,7 +83,21 @@ void Service::addMessage(int id_exp, int id_dest, string mesaj)
 
 void Service::removeMessage(int id_exp, int id_dest, int poz_mesaj)
 {
-	
+	int poz_repo_exp = this->getPosRepoById(id_exp);
+	int poz_repo_dest = this->getPosRepoById(id_dest);
+
+	string mesaj = repos_for_users[poz_repo_exp].getMesajeTrimise()[id_dest][poz_mesaj];
+	repos_for_users[poz_repo_exp].removeSentMessaje(id_dest, poz_mesaj);
+
+	vector<string> v = repos_for_users[poz_repo_dest].getMesajePrimite()[id_exp];
+	int pozitie = -1;
+	for (int i = 0; i < v.size() && pozitie == -1; i++)
+		if (v[i] == mesaj) pozitie = i;
+	repos_for_users[poz_repo_dest].removeReceivedMessage(id_exp, pozitie);
+
+	for (int i = 0; i < this->mesaje.size(); i++)
+		if (mesaje[i].getIdExpeditor() == id_exp && mesaje[i].getIdDestinatar() == id_dest && mesaje[i].getMesaj() == mesaj)
+			mesaje.remove(mesaje[i]);
 }
 
 int Service::getPosRepoById(int id)

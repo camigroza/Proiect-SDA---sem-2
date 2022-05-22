@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Lista&lt;TElem&gt;">
+    <Position X="0.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIGAAAAAEgIAAAQAAAgEAABAAAQAhAAACAAA=</HashCode>
+      <FileName>TAD_lista---array.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ABCNode&lt;TElem&gt;">
+    <Position X="2.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAQAAAAAIAAAAQAAgAAAAgAI=</HashCode>
+      <FileName>ABCNode.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MultimeOrdonata&lt;TElem&gt;">
+    <Position X="4" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAEAKAgAQAAAAEAAAAgASIhAAICAAA=</HashCode>
+      <FileName>TAD_multime_ordonata---ABC.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepoForUser">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAACABQAAAAQAEAAAZIBckAAABAAAAAIAAgAAABAAA=</HashCode>
+      <FileName>repository_'liste'_ale_utilizatorului.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Retea">
+    <Position X="6.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAQCACIAAAgAAABAAAAAAQACAAAQAQAAAAIgIAQACAA=</HashCode>
+      <FileName>retea.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Mesaj">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAACIAAAAAAAAAAAAAAAQAAAAgACAAIAACgAAoQAAA=</HashCode>
+      <FileName>mesaj.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Prietenie">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAJAAAAAAACAAAhAAAAAJE=</HashCode>
+      <FileName>prietenie.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utilizator">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAFEEAAAQAAEAQAACAAAQAIAAAEAAAAEAAgAQAAAgA=</HashCode>
+      <FileName>utilizator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Service">
+    <Position X="6.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAIBACABAABAAAAgYAAAAYAAQwAMAAAgIAAASAA=</HashCode>
+      <FileName>service.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI">
+    <Position X="8.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACJCAAQgAAAAQAAEQgACAAIAEAABAAAoEAAUAAAEAA=</HashCode>
+      <FileName>user_interface.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
