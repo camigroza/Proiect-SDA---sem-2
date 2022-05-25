@@ -47,7 +47,7 @@ void Service::modifyUser(int id, string nume_nou, int varsta_noua, string oras_n
 	}
 }
 
-void Service::addFriendship(int id_1, int id_2)
+int Service::addFriendship(int id_1, int id_2)
 {
 	Prietenie p(id_1, id_2);
 	if (this->retea.addFriendship(p) == 1)
@@ -56,10 +56,12 @@ void Service::addFriendship(int id_1, int id_2)
 		int poz_repo_2 = getPosRepoById(id_2);
 		repos_for_users[poz_repo_1].addFriend(id_2);
 		repos_for_users[poz_repo_2].addFriend(id_1);
+		return 1;
 	}
+	return 0;
 }
 
-void Service::removeFriendship(int id_1, int id_2)
+int Service::removeFriendship(int id_1, int id_2)
 {
 	Prietenie p(id_1, id_2);
 	if (this->retea.removeFriendship(p) == 1)
@@ -68,7 +70,9 @@ void Service::removeFriendship(int id_1, int id_2)
 		int poz_repo_2 = getPosRepoById(id_2);
 		repos_for_users[poz_repo_1].removeFriend(id_2);
 		repos_for_users[poz_repo_2].removeFriend(id_1);
+		return 1;
 	}
+	return 0;
 }
 
 void Service::addMessage(int id_exp, int id_dest, string mesaj)

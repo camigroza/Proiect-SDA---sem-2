@@ -5,7 +5,7 @@
 #include "retea.h"
 #include "TAD_lista---array.h"
 #include "TAD_multime_ordonata---ABC.h"
-#include "repository_'liste'_ale_utilizatorului.h"
+#include "repo_for_user.h"
 #include "service.h"
 #include "ABCNode.h"
 #include <assert.h>
@@ -438,5 +438,5 @@ void test_all()
 	test_TADMultimeOrdonata();
 	test_RepoForUser();
 	test_service();
-	cout << " Toate testele au trecut cu succes!\n\n";
+	cout << " Toate testele au trecut cu succes!\n";
 }

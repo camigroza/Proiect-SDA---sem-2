@@ -34,9 +34,27 @@ void UI::menuUsers()
 
 void UI::ui_adauga_utilizator()
 {
-	Utilizator u;
-	cin >> u;
-	this->service.addUser(u.getId(), u.getNume(), u.getVarsta(), u.getOras());
+	cout << " Dati id-ul: ";
+	int id;
+	cin >> id;
+	if (this->service.getPosRepoById(id) != -1)
+		cout << "\tExista deja un utilizator cu id-ul '" << id << "'!\n";
+	else
+	{
+		cin.get();
+		cout << " Dati numele: ";
+		string nume;
+		getline(cin, nume);
+		cout << " Dati varsta: ";
+		int varsta;
+		cin >> varsta;
+		cin.get();
+		cout << " Dati orasul: ";
+		string oras;
+		getline(cin, oras);
+		this->service.addUser(id, nume, varsta, oras);
+		cout << "\tUtilizatorul a fost adaugat cu succes!\n";
+	}
 }
 
 void UI::ui_sterge_utilizator()
@@ -44,7 +62,13 @@ void UI::ui_sterge_utilizator()
 	cout << " Dati id-ul utilizatorului de sters: ";
 	int id;
 	cin >> id;
-	this->service.removeUser(id);
+	if (this->service.getPosRepoById(id) == -1)
+		cout << "\tNu exista un utilizator cu id-ul dat!\n";
+	else
+	{
+		this->service.removeUser(id);
+		cout << "\tUtilizatorul a fost sters cu succes!\n";
+	}
 }
 
 void UI::ui_modifica_utilizator()
@@ -52,18 +76,24 @@ void UI::ui_modifica_utilizator()
 	cout << " Dati id-ul utilizatorului de modificat: ";
 	int id;
 	cin >> id;
-	cin.get();
-	cout << " Dati noul nume al utilizatorului: ";
-	string nume;
-	getline(cin, nume);
-	cout << " Dati noua varsta a utilizatorului: ";
-	int varsta;
-	cin >> varsta;
-	cin.get();
-	cout << " Dati noul oras al utilizatorului: ";
-	string oras;
-	getline(cin, oras);
-	this->service.modifyUser(id, nume, varsta, oras);
+	if (this->service.getPosRepoById(id) == -1)
+		cout << "\tNu exista un utilizator cu id-ul dat!\n";
+	else
+	{
+		cin.get();
+		cout << " Dati noul nume al utilizatorului: ";
+		string nume;
+		getline(cin, nume);
+		cout << " Dati noua varsta a utilizatorului: ";
+		int varsta;
+		cin >> varsta;
+		cin.get();
+		cout << " Dati noul oras al utilizatorului: ";
+		string oras;
+		getline(cin, oras);
+		this->service.modifyUser(id, nume, varsta, oras);
+		cout << "\tUtilizatorul a fost modificat cu succes!\n";
+	}
 }
 
 void UI::menuFriendships()
@@ -94,16 +124,54 @@ void UI::menuFriendships()
 
 void UI::ui_adauga_prietenie()
 {
-	Prietenie p;
-	cin >> p;
-	this->service.addFriendship(p.getIdUtilizator1(), p.getIdUtilizator2());
+	cout << " Dati id-ul primului prieten: ";
+	int id_1;
+	cin >> id_1;
+	if (this->service.getPosRepoById(id_1) == -1)
+		cout << "\tNu exista un utilizator cu id-ul dat!\n";
+	else
+	{
+		cout << " Dati id-ul celui de-al doilea prieten: ";
+		int id_2;
+		cin >> id_2;
+		if (this->service.getPosRepoById(id_2) == -1)
+			cout << "\tNu exista un utilizator cu id-ul dat!\n";
+		else if (id_1 == id_2)
+			cout << "\tId-urile celor doi prieteni trebuie sa fie diferite!\n";
+		else
+		{
+			int rez = this->service.addFriendship(id_1, id_2);
+			if (rez == 1)
+				cout << "\tPrietenia a fost adaugata cu succes!\n";
+			else
+				cout << "\tCei doi utilizatori sunt deja prieteni!\n";
+		}
+	}
 }
 
 void UI::ui_sterge_prietenie()
 {
-	Prietenie p;
-	cin >> p;
-	this->service.removeFriendship(p.getIdUtilizator1(), p.getIdUtilizator2());
+	cout << " Dati id-ul primului prieten: ";
+	int id_1;
+	cin >> id_1;
+	if (this->service.getPosRepoById(id_1) == -1)
+		cout << "\tNu exista un utilizator cu id-ul dat!\n";
+	else
+	{
+		cout << " Dati id-ul celui de-al doilea prieten: ";
+		int id_2;
+		cin >> id_2;
+		if (this->service.getPosRepoById(id_2) == -1)
+			cout << "\tNu exista un utilizator cu id-ul dat!\n";
+		else
+		{
+			int rez = this->service.removeFriendship(id_1, id_2);
+			if (rez == 1)
+				cout << "\tPrietenia a fost stearsa cu succes!\n";
+			else
+				cout << "\tCei doi utilizatori nu sunt prieteni!\n";
+		}
+	}
 }
 
 void UI::menuMessages()
@@ -222,7 +290,7 @@ void UI::ui_afiseaza_toti_prietenii_unui_utilizator()
 	int id;
 	cin >> id;
 	if (this->service.getPosRepoById(id) == -1)
-		cout << "\tNu exista utilizatorul cu id-ul '" << id << "'!";
+		cout << "\tNu exista utilizatorul cu id-ul '" << id << "'!" << endl;
 	else
 	{
 		Lista<Utilizator> all = this->service.getAllFriends(id);
@@ -333,6 +401,8 @@ void UI::runMenu()
 	string optiune;
 	while (true)
 	{
+		cout << endl;
+
 		cout << " 1. Gestiune (CRUD) utilizatori\n";
 		cout << " 2. Gestiune (CRUD) prietenii\n";
 		cout << " 3. Gestiune (CRUD) mesaje\n";
@@ -373,7 +443,5 @@ void UI::runMenu()
 		else if (optiune == "x")
 			break;
 		else cout << "\tOptiune gresita! Reincercati: \n";
-
-		cout << endl;
 	}
 }

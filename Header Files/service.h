@@ -1,5 +1,5 @@
 #pragma once
-#include "repository_'liste'_ale_utilizatorului.h"
+#include "repo_for_user.h"
 #include "retea.h"
 #include "mesaj.h"
 
@@ -21,8 +21,8 @@ public:
 	void modifyUser(int id, string nume_nou, int varsta_noua, string oras_nou);
 
 	//CRUD prietenie
-	void addFriendship(int id_1, int id_2);
-	void removeFriendship(int id_1, int id_2);
+	int addFriendship(int id_1, int id_2);
+	int removeFriendship(int id_1, int id_2);
 
 	//CRUD mesaj
 	void addMessage(int id_exp, int id_dest, string mesaj);

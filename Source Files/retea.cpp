@@ -18,6 +18,7 @@ Retea::Retea(const Retea& other)
 
 int Retea::addUser(const Utilizator& u)
 {
+	for (int i = 0; i < this->users.size(); i++)
 	if (this->existsUser(u)) return 0;
 	this->users.add(u);
 	return 1;
