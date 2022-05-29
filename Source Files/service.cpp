@@ -148,7 +148,7 @@ Lista<Utilizator> Service::getAllFriends(int id)
 	{
 		int poz_user = this->retea.findPosUserById(p[i]);
 		Utilizator u = this->retea.getUsers()[poz_user];
-		all.add(u);
+		if(u.getId() != -1) all.add(u);
 	}
 	return all;
 }
